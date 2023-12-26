@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 import static hello.jdbc.connection.ConnectionConst.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 // 기본 동작, 트랜잭션이 없어서 문제 발생
 class MemberServiceV1Test {
@@ -47,5 +48,26 @@ class MemberServiceV1Test {
 
         assertThat(findMemberA.getMoney()).isEqualTo(8000);
         assertThat(findMemberB.getMoney()).isEqualTo(12000);
+    }
+
+    @DisplayName("이체 중 예외 발생")
+    @Test
+    void accountTransferEx() throws SQLException {
+        // given
+        Member memberA = new Member(MEMBER_A, 10000);
+        Member memberEx = new Member(MEMBER_EX, 10000);
+        memberRepository.save(memberA);
+        memberRepository.save(memberEx);
+
+        // when
+        assertThatThrownBy(() -> memberService.accountTransfer(memberA.getMemberId(), memberEx.getMemberId(), 2000))
+                .isInstanceOf(IllegalStateException.class);
+
+        // then
+        Member findMemberA = memberRepository.findById(memberA.getMemberId());
+        Member findMemberB = memberRepository.findById(memberEx.getMemberId());
+
+        assertThat(findMemberA.getMoney()).isEqualTo(8000);
+        assertThat(findMemberB.getMoney()).isEqualTo(10000);
     }
 }
