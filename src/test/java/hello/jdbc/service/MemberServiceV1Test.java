@@ -2,6 +2,7 @@ package hello.jdbc.service;
 
 import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepositoryV1;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,13 @@ class MemberServiceV1Test {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
         memberRepository = new MemberRepositoryV1(dataSource);
         memberService = new MemberServiceV1(memberRepository);
+    }
+
+    @AfterEach
+    void after() throws SQLException {
+        memberRepository.delete(MEMBER_A);
+        memberRepository.delete(MEMBER_B);
+        memberRepository.delete(MEMBER_EX);
     }
 
     @DisplayName("정상 이체")
