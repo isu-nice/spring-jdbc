@@ -72,7 +72,7 @@ class MemberServiceV3_3Test {
         memberRepository.delete(MEMBER_EX);
     }
 
-    // 프록시 적용됐는지 확인해보는 테스트
+    // 트랜잭션 프록시 적용됐는지 확인해보는 테스용
     @Test
     void AopCheck() {
         log.info("memberService class={}", memberService.getClass());
