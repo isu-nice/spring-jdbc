@@ -4,7 +4,6 @@ import hello.jdbc.domain.Member;
 import hello.jdbc.repository.MemberRepositoryV3;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ class MemberServiceV3_3Test {
     private MemberServiceV3_3 memberService;
 
     @TestConfiguration // 테스트 내부에서 추가로 필요한 Bean 등록해서 사용할 수 있음
-    static class TestConfig{
+    static class TestConfig {
         @Bean
         DataSource dataSource() {
             return new DriverManagerDataSource(URL, USERNAME, PASSWORD);
@@ -71,6 +70,13 @@ class MemberServiceV3_3Test {
         memberRepository.delete(MEMBER_A);
         memberRepository.delete(MEMBER_B);
         memberRepository.delete(MEMBER_EX);
+    }
+
+    // 프록시 적용됐는지 확인해보는 테스트
+    @Test
+    void AopCheck() {
+        log.info("memberService class={}", memberService.getClass());
+        log.info("memberRepository class={}", memberRepository.getClass());
     }
 
     @DisplayName("정상 이체")
