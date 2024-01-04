@@ -36,7 +36,7 @@ class MemberServiceV3_3Test {
     @Autowired
     private MemberServiceV3_3 memberService;
 
-    @TestConfiguration
+    @TestConfiguration // 테스트 내부에서 추가로 필요한 Bean 등록해서 사용할 수 있음
     static class TestConfig{
         @Bean
         DataSource dataSource() {
