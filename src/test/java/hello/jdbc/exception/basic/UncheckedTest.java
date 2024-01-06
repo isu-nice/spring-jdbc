@@ -14,6 +14,12 @@ public class UncheckedTest {
         service.callCatch();
     }
 
+    @Test
+    void unchecked_throw() {
+        Service service = new Service();
+        assertThatThrownBy(() -> service.callThrow())
+                .isInstanceOf(MyUncheckedException.class);
+    }
 
     // RuntimeException을 상속받은 예외는 Unchecked 예외가 된다.
     static class MyUncheckedException extends RuntimeException {
