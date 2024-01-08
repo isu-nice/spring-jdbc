@@ -2,10 +2,12 @@ package hello.jdbc.repository;
 
 import hello.jdbc.domain.Member;
 
-public interface MemberRepositoryEx {
-    Member save(Member member);
+import java.sql.SQLException;
 
-    Member findById(String memberId);
+public interface MemberRepositoryEx {
+    Member save(Member member) throws SQLException;
+
+    Member findById(String memberId) throws SQLException;
 
     void update(String memberId, int money);
 
